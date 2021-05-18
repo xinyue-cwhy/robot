@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线机器人</title>
+  <style>
+    body {
+      background-color: rgb(195, 250, 178);
+    }
+
+    .contain {
+      width: 400px;
+      height: 600px;
+      border: 1px solid black;
+      margin: auto;
+      box-sizing: border-box;
+      padding: 20px 5px;
+      position: relative;
+    }
+
+    .robot,
+    .person {
+      overflow: hidden;
+    }
+
+    .robotheader {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid black;
+      text-align: center;
+      line-height: 30px;
+      background-color: pink;
+      float: left;
+    }
+
+    .robotsay {
+      height: 30px;
+      border: 1px solid black;
+      margin: 0 0 0 5px;
+      float: left;
+    }
+
+    .personheader {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid black;
+      text-align: center;
+      line-height: 30px;
+      background-color: pink;
+      float: right;
+    }
+
+    .personsay {
+      height: 30px;
+      border: 1px solid black;
+      float: right;
+      margin-right: 5px;
+    }
+
+    .footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+    }
+
+    input {
+      flex: 1;
+      height: 40px;
+      margin-right: 5px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contain">
+    <!-- 机器人 -->
+    <div class="robot">
+      <div class="robotheader">机</div>
+      <span class="robotsay"><a href="javascript:;">你好,本机器开发中,,请输入0 1</a></span>
+    </div>
+    <!-- 人 -->
+    <div class="person">
+      <div class="personheader">wo</div>
+      <span class="personsay">你好</span>
+    </div>
+    <div class="footer">
+      <input type="text">
+      <button>发送</button>
+    </div>
+  </div>
+  <script src="./jQuery.js"></script>
+  <script>
+    var btn = document.querySelector('button')
+    btn.onclick = function () {
+      var say = document.querySelector('input').value;
+      var wo = $('.person').first().clone();
+      wo.find('span').html(say)
+      $('.contain').append(wo)
+      var xhr = new XMLHttpRequest();
+      xhr.open('post', 'demo.php');
+      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var flag = true
+          var result = JSON.parse(xhr.responseText)
+          for (let index = 0; index < result.length; index++) {
+            if (say == index) {
+              const element = result[index];
+              console.log(element);
+              var robot = $('.robot').first().clone();
+              robot.find('a').html(element.name);
+              robot.find('a').attr('href', element.src);
+              $('.contain').append(robot)
+              flag = false
+            }
+          }
+          if (flag) {
+            var robot = $('.robot').first().clone();
+            robot.find('a').html('你好,请输入代码：0 1 2 ，获取信息');
+            robot.find('a').attr('href', 'javascript:;');
+            $('.contain').append(robot)
+          }
+        }
+      }
+      xhr.send('say=' + say)
+    }
+  </script>
+</body>
+
+</html>

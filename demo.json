@@ -1,0 +1,10 @@
+[
+  {
+    "name": "购物街",
+    "src": "object/vue/shopping.html"
+  },
+  {
+    "name": "品优购",
+    "src": "object/pc/pinyougo.html"
+  }
+]
