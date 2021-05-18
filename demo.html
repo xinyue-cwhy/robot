@@ -105,23 +105,24 @@
       wo.find('span').html(say)
       $('.contain').append(wo)
       var xhr = new XMLHttpRequest();
-      xhr.open('get', 'https://xinyue-cwhy.github.io/robot/demo.php');
-      // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded")
+      xhr.open('get', './demo.php');
+      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded")
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
           var flag = true
-          var result = JSON.parse(xhr.responseText)
-          for (let index = 0; index < result.length; index++) {
-            if (say == index) {
-              const element = result[index];
-              console.log(element);
-              var robot = $('.robot').first().clone();
-              robot.find('a').html(element.name);
-              robot.find('a').attr('href', element.src);
-              $('.contain').append(robot)
-              flag = false
-            }
-          }
+          // var result = JSON.parse(xhr.responseText)
+          // for (let index = 0; index < result.length; index++) {
+          //   if (say == index) {
+          //     const element = result[index];
+          //     console.log(element);
+          //     var robot = $('.robot').first().clone();
+          //     robot.find('a').html(element.name);
+          //     robot.find('a').attr('href', element.src);
+          //     $('.contain').append(robot)
+          //     flag = false
+          //   }
+          // }
+          console.log(xhr.responseText);
           if (flag) {
             var robot = $('.robot').first().clone();
             robot.find('a').html('你好,请输入代码：0 1 2 ，获取信息');
